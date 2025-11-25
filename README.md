@@ -1,19 +1,22 @@
 # Trans in Hinckley – Content
 
-This repository contains the content for the Trans in Hinckley website. It is consumed by the main site repository and synced into `src/content`.
+This repository contains the content for the Trans in Hinckley website. It is consumed by the main site repository as a Git submodule and then synced into `src/content` and `public/images`.
 
 ## Structure
 
 ```text
 content/
-├── blog/              # Blog posts (MD/MDX)
-├── help/
-│   ├── businesses/        # Guidance for businesses and organisations
-│   ├── familyandfriends/  # Guidance for family and friends
-│   └── you/               # Guidance for trans and questioning people
-└── legal/
-    ├── privacy-policy.mdx
-    └── safeguarding.mdx
+├── files/
+│   ├── blog/              # Blog posts (MD/MDX)
+│   ├── help/
+│   │   ├── businesses/        # Guidance for businesses and organisations
+│   │   ├── familyandfriends/  # Guidance for family and friends
+│   │   └── you/               # Guidance for trans and questioning people
+│   └── legal/
+│       ├── privacy-policy.mdx
+│       └── safeguarding.mdx
+└── images/
+    └── blog/              # Images referenced by content (copied to public/images)
 ```
 
 ## Editing content
@@ -48,13 +51,17 @@ Post content…
 
 ## Using with the main site
 
-The main site repository (`Trans-In-Hinckley/site`) syncs this content into its `src/content` directory for use with Astro Content Collections.
+The main site repository (`Trans-In-Hinckley/site`) includes this repo as a submodule at `site/content`. A sync script then:
+
+- Copies `content/files/**` → `site/src/content/**` (for Astro Content Collections).
+- Copies `content/images/**` → `site/public/images/**` (so paths like `/images/blog/...` work).
 
 Typical workflow:
 
-1. Edit content in this repository under `content/`.
-2. In the site repo, run your sync step or copy updated files into `src/content` (for example `src/content/blog`, `src/content/legal`, etc.).
-3. Commit changes in both repositories as needed.
+1. Edit markdown/MDX and other files under `content/files/`.
+2. Add or update images under `content/images/`.
+3. In the site repo, run `pnpm sync:content`.
+4. Commit changes in both repositories as needed.
 
 ## Contributing
 
